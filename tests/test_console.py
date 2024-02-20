@@ -47,5 +47,6 @@ class TestDoCreateWithMySQL(unittest.TestCase):
         self.assertEqual(final_count, initial_count + 1)
 
 
+
 if __name__ == '__main__':
     unittest.main()
