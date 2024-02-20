@@ -28,7 +28,6 @@ class FileStorage:
                 del self.__objects[key]
                 self.save()
 
-
     def save(self):
         """Saves storage dictionary to file"""
         with open(FileStorage.__file_path, 'w') as f:
