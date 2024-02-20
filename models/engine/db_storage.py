@@ -39,10 +39,12 @@ class DBStorage:
         self.__session = scoped_session(sessionmaker(bind=self.__engine))
 
     def all(self, cls=None):
+        """Returns a dictionary containing the
+        objects of the models in storage"""
         objects = dict()
         all_classes = [User, State, City, Amenity, Place, Review]
 
-        if cls == None:
+        if cls is None:
             for _class in all_classes:
                 class_obj = self.__session.query(_class)
                 for obj in class_obj.all():
@@ -55,3 +57,17 @@ class DBStorage:
                 objects[obj_key] = obj
 
         return objects
+
+    def new(self, obj):
+        """Adds the object to the current db session"""
+        if obj is not None:
+            self.__session.add(obj)
+
+    def save(self):
+        """commit all changes of the current database session"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """delete from the current database session obj if not None"""
+        if obj:
+            self.__session.delete(obj)
