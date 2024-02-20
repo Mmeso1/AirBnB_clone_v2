@@ -24,6 +24,7 @@ class FileStorage:
         """To delete an obj from _objects if inside"""
         if obj in self.__objects:
             del self.__objects[obj]
+            self.save()
         else:
             pass
 
