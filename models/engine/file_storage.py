@@ -16,17 +16,18 @@ class FileStorage:
             return {key: value for key, value in self.__objects.items()
                     if isinstance(value, cls)}
 
-    def new(self, obj):
-        """Adds new object to storage dictionary"""
+            def new(self, obj):
+                """Adds new object to storage dictionary"""
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def delete(self, obj=None):
-        """To delete an obj from _objects if inside"""
-        if obj in self.__objects:
-            del self.__objects[obj]
-            self.save()
-        else:
-            pass
+        """Delete obj from __objects if it's inside"""
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            if self.__objects[key]:
+                del self.__objects[key]
+                self.save()
+
 
     def save(self):
         """Saves storage dictionary to file"""
@@ -48,10 +49,10 @@ class FileStorage:
         from models.review import Review
 
         classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
+                'BaseModel': BaseModel, 'User': User, 'Place': Place,
+                'State': State, 'City': City, 'Amenity': Amenity,
+                'Review': Review
+                }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
