@@ -150,8 +150,8 @@ class HBNBCommand(cmd.Cmd):
             except ValueError:
                 print(f"Invalid parameter format for {param}. Skipping.")
 
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
