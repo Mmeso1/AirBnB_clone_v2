@@ -71,3 +71,17 @@ class DBStorage:
         """delete from the current database session obj if not None"""
         if obj:
             self.__session.delete(obj)
+
+    def reload(self):
+        """To reload the db"""
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(
+                bind=some_engine,
+                expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
+
+    def close(self):
+        """Closes the storage engine."""
+        self.__session.close()
+
