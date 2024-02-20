@@ -21,6 +21,7 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
+        """Returns city of a specified state"""
         var = models.storage.all()
         lista = []
         result = []
