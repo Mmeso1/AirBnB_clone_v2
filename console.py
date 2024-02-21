@@ -115,68 +115,23 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        #if not args:
-            #print("** class name missing **")
-            #return
-
-        #args_list = args.split()
-
-        #class_name = args_list[0]
-        #params = args_list[1:]
-
-        #if class_name not in HBNBCommand.classes:
-            #print("** class doesn't exist **")
-            #return
-        
-       # try:
-            #new_instance = HBNBCommand.classes[class_name]()
-       # except Exception as e:
-            #print(f"Error creating instance: {e}")
-            #return
-
-       # for param in params:
-            #try:
-                #key, value = param.split('=')
-
-                #if value.startswith('"') and value.endswith('"'):
-                    #value = value[1:-1].replace('_', ' ').replace('\\"', '"')
-                #elif '.' in value:
-                    #value = float(value)
-                #else:
-                    #value = int(value)
-
-                #setattr(new_instance, key, value)
-
-            #except ValueError:
-                #pass
-                #print(f"Invalid parameter format for {param}. Skipping.")
-
-        #new_instance.save()
-        #print(new_instance.id)
-        import models
-        # eg. create User name="Omar_Jammeh" address="Busumbala"
-        args = args.split()
-        if not args[0]:
+        try:
+            if not args:
+                raise SyntaxError()
+            arg_list = args.split(" ")
+            kw = {}
+            for arg in arg_list[1:]:
+                arg_splited = arg.split("=")
+                arg_splited[1] = eval(arg_splited[1])
+                if type(arg_splited[1]) is str:
+                    arg_splited[1] = arg_splited[1].replace("_", " ").replace(
+                            '"', '\\"')
+                kw[arg_splited[0]] = arg_splited[1]
+        except SyntaxError:
             print("** class name missing **")
-            return
-        elif args[0] not in self.classes:
+        except NameError:
             print("** class doesn't exist **")
-            return
-        _args = args[1:]
-        kwargs = {k_v.split('=')[0]: k_v.split('=')[1] for k_v in _args}
-
-        new_instance = self.classes[args[0]]()
-        for key, value in kwargs.items():
-            if value.startswith('"'):
-                value = value.replace('_', ' ')
-                value = value.strip('"')
-                if '"' in value:
-                    value.replace('"', '\"')
-                setattr(new_instance, key, value)
-            elif '.' in value:
-                setattr(new_instance, key, float(value))
-            elif value.isdigit():
-                setattr(new_instance, key, int(value))
+        new_instance = HBNBCommand.classes[arg_list[0]](**kw)
         new_instance.save()
         print(new_instance.id)
 
