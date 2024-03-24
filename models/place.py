@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """This is the place class"""
 from sqlalchemy.ext.declarative import declarative_base
@@ -81,3 +82,4 @@ class Place(BaseModel, Base):
             """ Appends amenity ids to the attribute """
             if type(obj) is Amenity and obj.id not in self.amenity_ids:
                 self.amenity_ids.append(obj.id)
+
