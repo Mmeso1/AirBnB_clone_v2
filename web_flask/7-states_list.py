@@ -1,9 +1,14 @@
+#!/usr/bin/python3
+""" HBNB Flask Server """
 from flask import Flask, render_template
 from models import storage, State
+
 
 app = Flask(__name__)
 
 # Teardown app context method
+
+
 @app.teardown_appcontext
 def close_storage(exception):
     storage.close()
