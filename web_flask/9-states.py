@@ -21,11 +21,9 @@ def lists_states():
 def lists_states_by_id(id):
     """ List all the states based on the passed id """
     states = sorted(list(storage.all(State).values()), key=lambda s: s.name)
-
     state_dict = {state.id: state for state in states}
-
-    state = state_dict.get(states.id)
-    return render_template('9-states.html', states=state)
+    state = state_dict.get(id)
+    return render_template('9-states.html', state=state)
 
 
 @app.teardown_appcontext
