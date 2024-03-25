@@ -10,13 +10,22 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
-@app.route('/cities_by_states')
-def lists_cities():
+@app.route('/states')
+def lists_states():
     """ List all the states """
     states = sorted(list(storage.all(State).values()), key=lambda s: s.name)
-    for state in states:
-        state.cities.sort(key=lambda c: c.name)
-    return render_template('8-cities_by_states.html', states=states)
+    return render_template('9-states.html', states=states)
+
+
+@app.route('/states/<id>')
+def lists_states_by_id(id):
+    """ List all the states based on the passed id """
+    states = sorted(list(storage.all(State).values()), key=lambda s: s.name)
+
+    state_dict = {state.id: state for state in states}
+
+    state = state_dict.get(states.id)
+    return render_template('9-states.html', states=state)
 
 
 @app.teardown_appcontext
